@@ -2,7 +2,7 @@ import React from "react";
 import TodoList from "./Todo/TodoList";
 
 function App() {
-  const todos = [
+  const [todos, setTodos] = React.useState([
     {
       id: 1,
       completed: false,
@@ -18,12 +18,23 @@ function App() {
       completed: false,
       title: "Купить масло",
     },
-  ];
+  ]);
+
+  function toggleTodo(id) {
+    setTodos(
+      todos.map((todo) => {
+        if (todo.id === id) {
+          todo.completed = !todo.completed;
+        }
+        return todo;
+      })
+    );
+  }
 
   return (
     <div className="wrapper">
-      <h1>Tutorial</h1>
-      <TodoList todos={todos} />
+      <h1>To Do List</h1>
+      <TodoList todos={todos} onToggle={toggleTodo} />
     </div>
   );
 }
