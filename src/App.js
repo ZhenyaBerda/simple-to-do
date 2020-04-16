@@ -1,6 +1,7 @@
 import React from "react";
 import TodoList from "./Todo/TodoList";
 import Context from "./context";
+import AddTask from "./Todo/AddTask";
 
 function App() {
   const [todos, setTodos] = React.useState([
@@ -36,12 +37,28 @@ function App() {
     setTodos(todos.filter((todo) => todo.id !== id));
   }
 
+  function addTask(title) {
+    setTodos(
+      todos.concat([
+        {
+          title,
+          id: Date.now(),
+          completed: false,
+        },
+      ])
+    );
+  }
+
   return (
     <Context.Provider value={{ removeTodo }}>
       <div className="wrapper">
         <h1>To Do List</h1>
-        {todos.length ? <TodoList todos={todos} onToggle={toggleTodo} /> : <p>No tasks</p> }
-        
+        <AddTask onCreate={addTask} />
+        {todos.length ? (
+          <TodoList todos={todos} onToggle={toggleTodo} />
+        ) : (
+          <p>No tasks</p>
+        )}
       </div>
     </Context.Provider>
   );
